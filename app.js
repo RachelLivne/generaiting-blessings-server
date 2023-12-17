@@ -21,7 +21,7 @@ app.get('/api/data', (req, res) => {
    
 });
 
-const apiKey = 'YOUR_OPENAI_API_KEY';
+const apiKey = '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';
 
 // פונקציה ליצירת בקשה ל-API של OpenAI
 async function generateGPTResponse(prompt, temperature = 0.7) {
@@ -39,6 +39,7 @@ async function generateGPTResponse(prompt, temperature = 0.7) {
 
     try {
         const response = await axios.post(apiUrl, data, { headers });
+        console.log(response)
         return response.data.choices[0].text.trim();
     } catch (error) {
         console.error('Error generating GPT response:', error.response ? error.response.data : error.message);
@@ -49,9 +50,12 @@ async function generateGPTResponse(prompt, temperature = 0.7) {
 // // ניתוב לניסיונות יצירת חיבור עם OpenAI
 app.post('/generate', async (req, res) => {
     const { prompt, temperature } = req.body;
+console.log(prompt)
+console.log(temperature)
 
     try {
         const response = await generateGPTResponse(prompt, temperature);
+        console.log(response)
         res.json({ response });
     } catch (error) {
         res.status(500).json({ error: 'Internal Server Error' });
